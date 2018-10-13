@@ -102,17 +102,19 @@ public class Jogo {
 	 * 
 	 * @param q
 	 *            Questão a adicionar.
+	 * @throws IllegalStateException
+	 *             Se o estado do jogo não estiver <tt>FUTURO</tt>.
+	 * @throws IllegalArgumentException
+	 *             Se a questão já estiver inclusa no jogo.
 	 */
 	public void adicionarQuestao(Questao q) {
 		if (questoes == null)
 			questoes = new ArrayList<>();
 		if (estado != EstadoJogo.FUTURO)
-			throw new EstadoDeJogoInvalidoException(this,
-					"Tentativa de adição de questão em jogo com estado diferente de FUTURO. Ação ignorada.",
-					new Object[] { q });
+			throw new IllegalStateException(
+					"Tentativa de adição de questão em jogo com estado diferente de FUTURO. Ação ignorada.");
 		if (questoes.contains(q)) {
-			throw new ItemDuplicadoException(this, "Tentativa de adição de questão duplicada. Ação ignorada.",
-					new Object[] { q });
+			throw new IllegalArgumentException("Tentativa de adição de questão duplicada. Ação ignorada.");
 		} else {
 			questoes.add(q);
 		}
@@ -123,15 +125,19 @@ public class Jogo {
 	 * 
 	 * @param s
 	 *            Sessão
+	 * 
+	 * @throws IllegalStateException
+	 *             Se o estado do jogo estiver <tt>ENCERRADO</tt>.
+	 * @throws IllegalArgumentException
+	 *             Se a sessão já estiver inclusa no jogo.
 	 */
-	public void adicionarSessao(Sessao s) {
+	public void adicionarSessao(Sessao s) throws IllegalStateException, IllegalArgumentException {
 		if (sessoes == null)
 			sessoes = new ArrayList<>();
 		if (estado == EstadoJogo.ENCERRADO)
-			throw new EstadoDeJogoInvalidoException(this,
-					"Tentativa de adição de sessão em um jogo encerrado. Ação ignorada.", new Object[] { s });
+			throw new IllegalStateException("Tentativa de adição de sessão em um jogo encerrado. Ação ignorada.");
 		if (sessoes.contains(s)) {
-			throw new ItemDuplicadoException(this, "Tentativa de adição de sessão duplicada. Ação ignorada.");
+			throw new IllegalArgumentException("Tentativa de adição de sessão duplicada. Ação ignorada.");
 		} else {
 			sessoes.add(s);
 		}
@@ -140,13 +146,18 @@ public class Jogo {
 	/**
 	 * Inicia o jogo. O jogo só pode ser iniciado se estiver dentro do horário de
 	 * abertura e o estado seja <tt>FUTURO</tt>
+	 * 
+	 * @throws IllegalStateException
+	 *             Se o estado de jogo não for <tt>FUTURO</tt>.
+	 * @throws IllegalArgumentException
+	 *             Se a data atual não estiver após a data de abertura.
 	 */
-	public void iniciarJogo() {
+	public void iniciarJogo() throws IllegalStateException, IllegalArgumentException {
 		if (this.estado != EstadoJogo.FUTURO)
-			throw new EstadoDeJogoInvalidoException(this,
+			throw new IllegalStateException(
 					"Não foi possível iniciar o jogo. O estado não está marcado como FUTURO. Ação ignorada.");
 		if (this.dataAbertura.after(new Date()))
-			throw new HorarioException(this,
+			throw new IllegalArgumentException(
 					"Não foi possível iniciar o jogo. O horário de abertura ainda não foi alcançado. Ação ignorada.");
 		setEstado(EstadoJogo.EM_ANDAMENTO);
 		proximaQuestao();
@@ -156,8 +167,11 @@ public class Jogo {
 	 * Avança para a proxima questão. A questão só pode ser avançada se o tempo
 	 * destinado à resposta dela for esgotado, e ela não for a última questão do
 	 * jogo.
+	 * 
+	 * @throws NullPointerException
+	 *             Se não há mais questões a serem exibidas.
 	 */
-	public void proximaQuestao() {
+	public void proximaQuestao() throws NullPointerException {
 		if (obterDataMaximaParaRespostaDaQuestaoAtual().after(new Date()))
 			throw new DateTimeException(
 					"Não foi possível avançar para a próxima questão. O horário limite para resposta ainda não foi alcançado. Ação ignorada.");
@@ -166,7 +180,7 @@ public class Jogo {
 			setQuestaoAtual(questoes.get(proximoIndice));
 			setDataQuestaoAtual(new Date());
 		} else {
-			throw new FimQuestoesException(this, "Não há mais questões a serem exibidas. Ação ignorada.");
+			throw new NullPointerException("Não há mais questões a serem exibidas. Ação ignorada.");
 		}
 	}
 
@@ -189,13 +203,19 @@ public class Jogo {
 		return new Date(ms);
 	}
 
-	public void encerrarJogo() {
+	/**
+	 * Encerra o jogo.
+	 * 
+	 * @throws IllegalStateException
+	 *             Se o estado do jogo não for <tt>ENCERRADO</tt> ou se ainda ouvir
+	 *             perguntas a serem exibidas.
+	 */
+	public void encerrarJogo() throws IllegalStateException {
 		if (this.estado != EstadoJogo.EM_ANDAMENTO)
-			throw new EstadoDeJogoInvalidoException(this,
+			throw new IllegalStateException(
 					"Não foi possível encerrar um jogo que não está em andamento. Ação ignorada.");
 		if (numeroQuestaoAtual != getTotalDeQuestoes())
-			throw new EstadoDeJogoInvalidoException(this,
-					"Não foi possível encerrar um jogo que não encerrou sua última questão.");
+			throw new IllegalStateException("Não foi possível encerrar um jogo que não encerrou sua última questão.");
 		estado = EstadoJogo.ENCERRADO;
 	}
 
@@ -239,7 +259,7 @@ public class Jogo {
 	}
 
 	public void setNome(String nome) {
-		if(nome.isEmpty())
+		if (nome.isEmpty())
 			throw new IllegalArgumentException("Tentativa de inserção de um nome vazio. Ação ignorada.");
 		this.nome = nome;
 	}
