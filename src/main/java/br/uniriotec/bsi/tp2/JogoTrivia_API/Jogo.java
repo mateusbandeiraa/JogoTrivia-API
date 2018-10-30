@@ -12,13 +12,13 @@ import java.util.LinkedHashSet;
 public class Jogo {
 	private int id;
 	/**
-	 * Nome do jogo. Pode ser usado para descrever o tema das perguntas. ex.: Música
-	 * Anos 80.
+	 * Nome do jogo. Pode ser usado para descrever o tema das perguntas. ex.:
+	 * Música Anos 80.
 	 */
 	private String nome;
 	/**
-	 * Limites padrão de quantas ajudas de certo tipo podem ser usadas nesse jogo.
-	 * Esses limites podem ser sobrescritos pela {@link Partida}.
+	 * Limites padrão de quantas ajudas de certo tipo podem ser usadas nesse
+	 * jogo. Esses limites podem ser sobrescritos pela {@link Partida}.
 	 */
 	private int limiteAjudasTempoBonus;
 	private int limiteAjudasRemoverOpcoes;
@@ -53,6 +53,25 @@ public class Jogo {
 		if (questoes == null)
 			questoes = new LinkedHashSet<>();
 		questoes.add(questao);
+	}
+
+	/**
+	 * Converte o <tt>Set</tt> de questões em Array e retorna a questão do
+	 * indice passado.
+	 * 
+	 * @param numeroQuestaoAtual
+	 * @return Questao no indice indicado.
+	 */
+	public Questao getQuestaoPorIndice(int numeroQuestaoAtual) {
+		return (Questao) questoes.toArray()[numeroQuestaoAtual];
+	}
+
+	/**
+	 * Calcula o número total de questões do jogo.
+	 * @return total de Questoes
+	 */
+	public int totalDeQuestoes() {
+		return questoes != null ? questoes.size() : 0;
 	}
 
 	public int getId() {
