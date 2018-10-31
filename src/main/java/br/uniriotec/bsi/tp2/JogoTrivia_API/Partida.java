@@ -1,5 +1,6 @@
 package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
@@ -44,7 +45,8 @@ public class Partida {
 	 */
 	private final Jogo JOGO_MODELO;
 	/**
-	 * Estado atual da partida. Útil para testar se certas ações são permitidas no momento atual.
+	 * Estado atual da partida. Útil para testar se certas ações são permitidas no
+	 * momento atual.
 	 */
 	private EstadoPartida estadoAtual;
 	/**
@@ -126,14 +128,29 @@ public class Partida {
 		return true;
 	}
 
-	// TODO
+	/**
+	 * Encerra a partida. Para encerrar, o estado da partida precisa ser
+	 * <tt>EM_ANDAMENTO</tt> e a última questão precisa estar fechada.
+	 */
 	private void encerrarPartida() {
-
+		if (!estadoAtual.podeEncerrarPartida)
+			throw new IllegalStateException("Estado atual não permite o encerramento da partida.");
+		if (numeroQuestaoAtual != JOGO_MODELO.totalDeQuestoes()
+				&& obterDataMaximaParaResposta().before(new Date())) // Checa se a data máxima para a resposta 
+																	 // da última questão aconteceu antes do momento atual.
+			throw new IllegalStateException("Não é possível encerrar um jogo que não encerrou todas as questões.");
+		this.estadoAtual = EstadoPartida.ENCERRADO;
 	}
 
-	// TODO
-	private ArrayList<Participante> obterClassificacao() {
-
+	/**
+	 * Ordena uma ArrayList de todos os participantes baseados na pontuação de cada e retorna os 10 melhores colocados.
+	 * @return ArrayList com os 10 melhores colocados, com o melhor na posição zero e o pior na posição 10.
+	 */
+	public ArrayList<Participante> obterClassificacao() {
+		ArrayList<Participante> classificacao = new ArrayList<Participante>(participantes);
+		classificacao.sort(null); // TODO ParticipanteComparator
+		classificacao = (ArrayList<Participante>) classificacao.subList(0, Math.min(10, classificacao.size() + 1));
+		return classificacao;
 	}
 
 	public int getId() {
