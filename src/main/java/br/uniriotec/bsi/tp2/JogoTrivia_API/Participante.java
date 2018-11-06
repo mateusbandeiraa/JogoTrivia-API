@@ -24,7 +24,7 @@ public class Participante {
 	public int pontuacaoTotal() {
 		int soma = 0;
 		for (Interacao interacao : interacoes) {
-			soma += interacao.pontuacao();
+			soma += interacao.calcularPontuacao();
 		}
 		return soma;
 	}
