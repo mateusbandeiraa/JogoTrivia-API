@@ -32,7 +32,7 @@ public class AcervoDeQuestoes {
         this.questoes.remove(q);
     }
     
-    public ArrayList<Questao> exportaQuestoes () {
+    public ArrayList<Questao> getQuestoes () {
         return this.questoes;
     }
 }
