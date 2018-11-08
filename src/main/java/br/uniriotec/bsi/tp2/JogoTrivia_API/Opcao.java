@@ -5,12 +5,14 @@ public class Opcao {
     private final int id;
     private String texto;
     private final boolean estaCerto;
+    private boolean ehRemovivel;
 
-    public Opcao(Questao questao, int id, String texto, boolean estaCerto) {
+    public Opcao(Questao questao, int id, String texto, boolean estaCerto, boolean ehRemovivel) {
         this.questao = questao;
         this.id = id;
         this.texto = texto;
         this.estaCerto = estaCerto;
+        this.ehRemovivel = ehRemovivel;
     }
 
     public Questao getQuestao() {
@@ -25,6 +27,14 @@ public class Opcao {
         return texto;
     }
 
+    public boolean ehRemovivel() {
+        return ehRemovivel;
+    }
+
+    public void setEhRemovivel(boolean ehRemovivel) {
+        this.ehRemovivel = ehRemovivel;
+    }
+    
     public boolean estaCerto() {
         return estaCerto;
     }

@@ -7,10 +7,9 @@ public class Questao {
     private String textoPergunta;
     private int tempoDisponivel; //em segundos
     private int tempoBonus; //em segundos
-    private Opcao respostaCerta;
-    private int qtdAcertos;
-    private int qtdTentativas;
-    private ArrayList<Opcao> opcoesASeremRemovidas;
+    private ArrayList<Opcao> opcoes;
+    private Opcao opcaoCerta;
+    private int quantidadeARemover;
     
     public Questao (int id, String textoPergunta, int tempoDisponivel, int tempoBonus) {
         this.id = id;
@@ -46,46 +45,41 @@ public class Questao {
     public int getId() {
         return id;
     }
+
+    public Opcao getOpcaoCerta() {
+        return opcaoCerta;
+    }
+    
     
     /**
-     * Recebe a base de opcoes e filtra quais são as opcoes desta questão especifica
+     * Recebe a base de opcoes e armazena
      * Salva no atributo respostaCerta a opção correta
-     * Salva no atributo opcoesASeremRemovidas as incorretas
      * @param opcoes
-     * @return 
      */
-    public ArrayList<Opcao> getOpcoes(ArrayList<Opcao> opcoes) {
-        opcoes = new ArrayList<Opcao>();
+    public void setOpcoes(ArrayList<Opcao> opcoes) {
+        this.opcoes = opcoes;
         for (Opcao op : opcoes) {
-            if (op.getQuestao().equals(this)) {
-                opcoes.add(op);
-                if (op.estaCerto())
-                    this.respostaCerta = op;
-                else
-                    this.opcoesASeremRemovidas.add(op);
-            }
+            if (op.estaCerto())
+                this.opcaoCerta = op;
+            if (op.ehRemovivel())
+                this.quantidadeARemover++;
         }
-        return opcoes;
     }
     
-    public boolean checaSolucao(Opcao op) {
-        if (op.equals(this.respostaCerta)) {
-            this.qtdAcertos++;
-            this.qtdTentativas++;
-            return true;
+    public double calcularTaxaDeAcerto(ArrayList<Interacao> interacoes) {
+        int qtdCertas = 0;
+        for (Interacao i : interacoes) {
+            if (i.solucaoTeveExito())
+                qtdCertas++;
         }
-        this.qtdTentativas++;
-        return false;          
+        return qtdCertas/interacoes.size()*1.0;
     }
     
-    public double taxaDeAcerto() {
-        return qtdAcertos*1.0/qtdTentativas;
-    }
-    
-    public ArrayList<Opcao> removerOpcoes (int quantidade) {
+    public ArrayList<Opcao> removerOpcoesIncorretas () {
         ArrayList<Opcao> opcoesARemover = new ArrayList<Opcao>();
-        for (int i = 0; i < quantidade; i++) {
-            opcoesARemover.add(this.opcoesASeremRemovidas.get(i));
+        for (Opcao op : opcoes) {
+            if (op.ehRemovivel())
+                opcoesARemover.add(op);
         }
         return opcoesARemover;
     }
