@@ -148,7 +148,7 @@ public class Partida {
 	 */
 	public ArrayList<Participante> obterClassificacao() {
 		ArrayList<Participante> classificacao = new ArrayList<Participante>(participantes);
-		classificacao.sort(null); // TODO ParticipanteComparator
+		classificacao.sort(Participante.COMPARATOR_PONTUACAO);
 		classificacao = (ArrayList<Participante>) classificacao.subList(0, Math.min(10, classificacao.size() + 1));
 		return classificacao;
 	}
