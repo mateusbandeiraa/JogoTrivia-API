@@ -132,7 +132,7 @@ public class Partida {
 	 * Encerra a partida. Para encerrar, o estado da partida precisa ser
 	 * <tt>EM_ANDAMENTO</tt> e a última questão precisa estar fechada.
 	 */
-	private void encerrarPartida() {
+	public void encerrarPartida() {
 		if (!estadoAtual.podeEncerrarPartida)
 			throw new IllegalStateException("Estado atual não permite o encerramento da partida.");
 		if (numeroQuestaoAtual != JOGO_MODELO.totalDeQuestoes()
