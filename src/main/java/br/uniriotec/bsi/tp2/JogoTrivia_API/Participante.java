@@ -1,11 +1,12 @@
 package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * 
  * @author Rafael Mota
- *
+ * @author Mateus Bandeira
  */
 public class Participante {
 	/**
@@ -26,6 +27,16 @@ public class Participante {
 	 */
 	private ArrayList<Interacao> interacoes;
 	private Partida partida;
+	
+	/**
+	 * Comparator usado para ordenar uma coleção de Participantes usando como critério a pontuação DECRESCENTE.
+	 */
+	public static final Comparator<Participante> COMPARATOR_PONTUACAO = new Comparator<Participante>() {
+		public int compare(Participante o1, Participante o2) {
+			return o2.pontuacaoTotal() - o1.pontuacaoTotal();
+		}
+		
+	};
 
 	public void adicionarInteracao(Interacao i) {
 		if (interacoes == null)
