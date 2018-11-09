@@ -58,6 +58,7 @@ public class Partida {
 		this.id = id;
 		this.JOGO_MODELO = jogoModelo;
 		this.estadoAtual = EstadoPartida.DISPONIVEL;
+		participantes = new HashSet<>();
 	}
 
 	public Partida(int id, Jogo jogoModelo, int limiteAjudasRemoverOpcoes, int limiteAjudasTempoBonus) {
@@ -92,13 +93,20 @@ public class Partida {
 	public void proximaQuestao() {
 		if (!estadoAtual.podeMostrarQuestao)
 			throw new IllegalStateException("Estado atual não permite mostrar próxima questão.");
-		if (numeroQuestaoAtual == JOGO_MODELO.totalDeQuestoes()) {
+		if (estaNaUltimaQuestao()) {
 			throw new NoSuchElementException("Não há mais questões a serem exibidas.");
 		}
 		numeroQuestaoAtual++;
 		// O numeroQuestaoAtual é decrescido em 1 porque a variavel representa
 		// as questoes iniciando em 1.
 		this.questaoAtual = JOGO_MODELO.getQuestaoPorIndice(numeroQuestaoAtual - 1);
+		this.dataQuestaoAtual = new Date();
+	}
+	/**
+	 * Verifica se a questão atual é a última da lista.
+	 */
+	public boolean estaNaUltimaQuestao() {
+		return numeroQuestaoAtual == JOGO_MODELO.totalDeQuestoes();
 	}
 
 	/**
@@ -126,6 +134,16 @@ public class Partida {
 				return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Inicia a partida e avança para a primeira Questão.
+	 */
+	public void iniciarPartida() {
+		if(estadoAtual != EstadoPartida.DISPONIVEL)
+			throw new IllegalStateException("Estado atual não permite o início da partida.");
+		estadoAtual = EstadoPartida.EM_ANDAMENTO;
+		proximaQuestao();
 	}
 
 	/**
@@ -159,6 +177,10 @@ public class Partida {
 
 	public Questao getQuestaoAtual() {
 		return questaoAtual;
+	}	
+
+	public int getNumeroQuestaoAtual() {
+		return numeroQuestaoAtual;
 	}
 
 	public Date getDataQuestaoAtual() {
