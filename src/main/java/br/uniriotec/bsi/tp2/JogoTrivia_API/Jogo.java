@@ -42,6 +42,12 @@ public class Jogo {
 		setId(id);
 	}
 
+	@Override
+	public String toString() {
+		return "Jogo [id=" + id + ", nome=" + nome + ", limiteAjudasTempoBonus=" + limiteAjudasTempoBonus
+				+ ", limiteAjudasRemoverOpcoes=" + limiteAjudasRemoverOpcoes + ", questoes=" + questoes + "]";
+	}
+
 	/**
 	 * Insere uma nova {@link Questao} ao fim do <tt>Jogo</tt>. Se a questão já
 	 * estiver presente, nada será acrescentado.
@@ -68,6 +74,7 @@ public class Jogo {
 
 	/**
 	 * Calcula o número total de questões do jogo.
+	 * 
 	 * @return total de Questoes
 	 */
 	public int totalDeQuestoes() {

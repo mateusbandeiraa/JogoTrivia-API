@@ -43,14 +43,14 @@ public class Interacao {
 	 * pontuacao = porcentagem do tempo restante em ralação ao tempo total
 	 * </pre>
 	 * 
-	 * @return A pontuação que o participante ganhou ao responder a questão correta0
+	 * @return A pontuação que o participante ganhou ao responder a questão correta
 	 */
 	public int calcularPontuacao() {
 		if (!solucaoTeveExito())
 			return 0;
 		else {
 			long tempoGasto = (dataCriacao.getTime() - partida.getDataQuestaoAtual().getTime()) / 1000;
-			int porcentagemUsada = (int) (tempoGasto * 100) / questao.getTempoDisponivel();// TODO
+			int porcentagemUsada = (int) (tempoGasto * 100) / questao.getTempoDisponivel();
 			int pontuacao = 100 - porcentagemUsada;
 			return pontuacao;
 		}
@@ -95,6 +95,12 @@ public class Interacao {
 		this.dataCriacao = dataCriacao;
 		this.partida = partida;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Interacao [questao=" + questao.getId() + ", opcaoSelecionada=" + opcaoSelecionada + ", dataCriacao="
+				+ dataCriacao + ", partida=" + partida.getId() + ", solucaoTeveExito()=" + solucaoTeveExito()
+				+ ", calcularPontuacao()=" + calcularPontuacao() + "]";
+	}
 
 }

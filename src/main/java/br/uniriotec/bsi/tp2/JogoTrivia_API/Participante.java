@@ -130,6 +130,15 @@ public class Participante {
 		this.ajudasRemoverOpcoesUsadas = ajudasRemoverOpcoesUsadas;
 		this.partida = partida;
 	}
+
+	@Override
+	public String toString() {
+		return "Participante [nickname=" + nickname + ", chave=" + chave + ", ajudasTempoBonusUsadas="
+				+ ajudasTempoBonusUsadas + ", ajudasRemoverOpcoesUsadas=" + ajudasRemoverOpcoesUsadas + ", # interacoes="
+				+ interacoes.size() + ", partida=" + partida.getId() + ", pontuacaoTotal() = " + pontuacaoTotal()+ "]";
+	}
+	
+	
 	
 
 }

@@ -7,8 +7,17 @@ public class QuestaoMidia extends Questao {
         super(id, textoPergunta, tempoDisponivel, tempoBonus);
         this.urlMidia = urlMidia;
     }
+    
+    
 
-    public String getUrlMidia() {
+    @Override
+	public String toString() {
+		return "QuestaoMidia [urlMidia=" + urlMidia + ", super()=" + super.toString() + "]";
+	}
+
+
+
+	public String getUrlMidia() {
         return urlMidia;
     }
 

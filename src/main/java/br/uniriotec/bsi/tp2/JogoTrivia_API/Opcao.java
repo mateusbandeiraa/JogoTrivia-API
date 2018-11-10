@@ -17,6 +17,12 @@ public class Opcao {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return "Opcao [id=" + id + ", texto=" + texto + ", estaCerto=" + estaCerto + ", ehRemovivel=" + ehRemovivel
+				+ "]";
+	}
+
 	public int getId() {
 		return id;
 	}

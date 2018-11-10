@@ -66,6 +66,15 @@ public class Partida {
 		this.setLimiteAjudasRemoverOpcoes(limiteAjudasRemoverOpcoes);
 		this.setLimiteAjudasTempoBonus(limiteAjudasTempoBonus);
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Partida [id=" + id + ", questaoAtual=" + questaoAtual.getId() + ", numeroQuestaoAtual=" + numeroQuestaoAtual
+				+ ", dataQuestaoAtual=" + dataQuestaoAtual + ", limiteAjudasRemoverOpcoes=" + limiteAjudasRemoverOpcoes
+				+ ", limiteAjudasTempoBonus=" + limiteAjudasTempoBonus + ", estadoAtual=" + estadoAtual + "]";
+	}
 
 	/**
 	 * Adiciona novo participante à partida.
