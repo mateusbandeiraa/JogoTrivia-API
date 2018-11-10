@@ -20,6 +20,13 @@ public class Questao {
 		this.textoPergunta = textoPergunta;
 		this.tempoDisponivel = tempoDisponivel;
 		this.tempoBonus = tempoBonus;
+	}	
+
+	@Override
+	public String toString() {
+		return "Questao [id=" + id + ", textoPergunta=" + textoPergunta + ", tempoDisponivel=" + tempoDisponivel
+				+ ", tempoBonus=" + tempoBonus + ", opcoes=" + opcoes + ", opcaoCerta=" + opcaoCerta
+				+ ", quantidadeARemover=" + quantidadeARemover + "]";
 	}
 
 	public String getTextoPergunta() {
