@@ -59,9 +59,10 @@ public class Interacao {
 			return pontuacao;
 		}
 	}
-/**
- * @return tempo Gasto na interação (em MS)
- */
+
+	/**
+	 * @return tempo Gasto na interação (em MS)
+	 */
 	public long tempoGastoNaInteracao() {
 		long tempoGastoNaInteracao = (dataCriacao.getTime() - partida.getDataQuestaoAtual().getTime()) / 1000;
 		return tempoGastoNaInteracao;
@@ -99,15 +100,14 @@ public class Interacao {
 		this.partida = partida;
 	}
 
-	public Interacao(Questao questao, Opcao opcaoSelecionada, Date dataCriacao, Partida partida) {
-		super();
-		if (partida.obterDataMaximaParaResposta().after(dataCriacao)) {
-			new IllegalStateException("Não pode Criar a interação pois o tempo passou, perdeu PLAYBOY");
-			this.questao = questao;
-			this.opcaoSelecionada = opcaoSelecionada;
-			this.dataCriacao = dataCriacao;
-			this.partida = partida;
-		}
+	public Interacao(Questao questao, Opcao opcaoSelecionada, Date dataCriacao, Partida partida)
+			throws IllegalStateException {
+		if (partida.obterDataMaximaParaResposta().before(dataCriacao))
+			throw new IllegalStateException("Não é possível instanciar a Interação após o término do tempo estipulado na questão.");
+		this.questao = questao;
+		this.opcaoSelecionada = opcaoSelecionada;
+		this.dataCriacao = dataCriacao;
+		this.partida = partida;
 
 	}
 
