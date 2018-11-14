@@ -24,10 +24,6 @@ public class Interacao {
 	 * O objeto Partida que representa a partida atual
 	 */
 	private Partida partida;
-	/**
-	 * Data e hora do final da interação
-	 */
-	private long tempoInteracao;
 
 	/**
 	 * <pre>
