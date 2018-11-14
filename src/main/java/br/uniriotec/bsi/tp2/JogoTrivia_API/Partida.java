@@ -66,14 +66,13 @@ public class Partida {
 		this.setLimiteAjudasRemoverOpcoes(limiteAjudasRemoverOpcoes);
 		this.setLimiteAjudasTempoBonus(limiteAjudasTempoBonus);
 	}
-	
-	
 
 	@Override
 	public String toString() {
-		return "Partida [id=" + id + ", questaoAtual=" + questaoAtual.getId() + ", numeroQuestaoAtual=" + numeroQuestaoAtual
-				+ ", dataQuestaoAtual=" + dataQuestaoAtual + ", limiteAjudasRemoverOpcoes=" + limiteAjudasRemoverOpcoes
-				+ ", limiteAjudasTempoBonus=" + limiteAjudasTempoBonus + ", estadoAtual=" + estadoAtual + "]";
+		return "Partida [id=" + id + ", questaoAtual=" + questaoAtual.getId() + ", numeroQuestaoAtual="
+				+ numeroQuestaoAtual + ", dataQuestaoAtual=" + dataQuestaoAtual + ", limiteAjudasRemoverOpcoes="
+				+ limiteAjudasRemoverOpcoes + ", limiteAjudasTempoBonus=" + limiteAjudasTempoBonus + ", estadoAtual="
+				+ estadoAtual + "]";
 	}
 
 	/**
@@ -111,6 +110,7 @@ public class Partida {
 		this.questaoAtual = JOGO_MODELO.getQuestaoPorIndice(numeroQuestaoAtual - 1);
 		this.dataQuestaoAtual = new Date();
 	}
+
 	/**
 	 * Verifica se a questão atual é a última da lista.
 	 */
@@ -144,12 +144,12 @@ public class Partida {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Inicia a partida e avança para a primeira Questão.
 	 */
 	public void iniciarPartida() {
-		if(estadoAtual != EstadoPartida.DISPONIVEL)
+		if (estadoAtual != EstadoPartida.DISPONIVEL)
 			throw new IllegalStateException("Estado atual não permite o início da partida.");
 		estadoAtual = EstadoPartida.EM_ANDAMENTO;
 		proximaQuestao();
@@ -162,22 +162,38 @@ public class Partida {
 	public void encerrarPartida() {
 		if (!estadoAtual.podeEncerrarPartida)
 			throw new IllegalStateException("Estado atual não permite o encerramento da partida.");
-		if (numeroQuestaoAtual != JOGO_MODELO.totalDeQuestoes()
-				&& obterDataMaximaParaResposta().before(new Date())) // Checa se a data máxima para a resposta 
-																	 // da última questão aconteceu antes do momento atual.
+		if (numeroQuestaoAtual != JOGO_MODELO.totalDeQuestoes() && obterDataMaximaParaResposta().before(new Date())) // Checa
+																														// se
+																														// a
+																														// data
+																														// máxima
+																														// para
+																														// a
+																														// resposta
+																														// da
+																														// última
+																														// questão
+																														// aconteceu
+																														// antes
+																														// do
+																														// momento
+																														// atual.
 			throw new IllegalStateException("Não é possível encerrar um jogo que não encerrou todas as questões.");
 		this.estadoAtual = EstadoPartida.ENCERRADO;
 	}
 
 	/**
-	 * Ordena uma ArrayList de todos os participantes baseados na pontuação de cada e retorna os 10 melhores colocados.
-	 * @return ArrayList com os 10 melhores colocados, com o melhor na posição zero e o pior na posição 10.
+	 * Ordena uma ArrayList de todos os participantes baseados na pontuação de cada
+	 * e retorna os 10 melhores colocados.
+	 * 
+	 * @return ArrayList com os 10 melhores colocados, com o melhor na posição zero
+	 *         e o pior na posição 10.
 	 */
 	public ArrayList<Participante> obterClassificacao() {
 		ArrayList<Participante> classificacao = new ArrayList<Participante>(participantes);
 		classificacao.sort(Participante.COMPARATOR_PONTUACAO);
-		classificacao = new ArrayList<>(classificacao.subList(0, Math.min(10, classificacao.size())));
-		return classificacao;
+		ArrayList<Participante> top10 = new ArrayList<>(classificacao.subList(0, Math.min(10, classificacao.size())));
+		return top10;
 	}
 
 	public int getId() {
@@ -186,7 +202,7 @@ public class Partida {
 
 	public Questao getQuestaoAtual() {
 		return questaoAtual;
-	}	
+	}
 
 	public int getNumeroQuestaoAtual() {
 		return numeroQuestaoAtual;
@@ -200,7 +216,7 @@ public class Partida {
 		return limiteAjudasRemoverOpcoes;
 	}
 
-	private void setLimiteAjudasRemoverOpcoes(int limiteAjudasRemoverOpcoes) {
+	private void setLimiteAjudasRemoverOpcoes(int limiteAjudasRemoverOpcoes) throws IllegalArgumentException {
 		if (limiteAjudasRemoverOpcoes < 0)
 			throw new IllegalArgumentException("O limite não pode ser menor que zero.");
 		this.limiteAjudasRemoverOpcoes = limiteAjudasRemoverOpcoes;
@@ -210,7 +226,7 @@ public class Partida {
 		return limiteAjudasTempoBonus;
 	}
 
-	private void setLimiteAjudasTempoBonus(int limiteAjudasTempoBonus) {
+	private void setLimiteAjudasTempoBonus(int limiteAjudasTempoBonus) throws IllegalArgumentException {
 		if (limiteAjudasTempoBonus < 0)
 			throw new IllegalArgumentException("O limite não pode ser menor que zero.");
 		this.limiteAjudasTempoBonus = limiteAjudasTempoBonus;

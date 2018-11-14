@@ -1,6 +1,6 @@
 package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 /**
  * Classe agregadora de questões. Um jogo é um modelo que será base para uma
@@ -24,12 +24,9 @@ public class Jogo {
 	private int limiteAjudasRemoverOpcoes;
 
 	/**
-	 * Conjunto de questões que serão apresentadas no jogo. O
-	 * {@link LinkedHashSet} foi escolhido devido à persistência da ordem que as
-	 * questões foram inseridas e ao tratamento dado à inserções duplicadas (são
-	 * ignoradas).
+	 * Conjunto de questões que serão apresentadas no jogo.
 	 */
-	private LinkedHashSet<Questao> questoes;
+	private ArrayList<Questao> questoes;
 
 	public Jogo(String nome, int limiteAjudasTempoBonus, int limiteAjudasRemoverOpcoes) {
 		setNome(nome);
@@ -57,7 +54,9 @@ public class Jogo {
 	 */
 	public void adicionarQuestao(Questao questao) {
 		if (questoes == null)
-			questoes = new LinkedHashSet<>();
+			questoes = new ArrayList<>();
+		if(questoes.contains(questao))
+			throw new IllegalArgumentException("O jogo não pode possuir questões duplicadas.");
 		questoes.add(questao);
 	}
 
@@ -101,7 +100,7 @@ public class Jogo {
 		return limiteAjudasTempoBonus;
 	}
 
-	public void setLimiteAjudasTempoBonus(int limiteAjudasTempoBonus) {
+	public void setLimiteAjudasTempoBonus(int limiteAjudasTempoBonus) throws IllegalArgumentException{
 		if (limiteAjudasTempoBonus < 0)
 			throw new IllegalArgumentException("O limite não pode ser menor que 0.");
 		this.limiteAjudasTempoBonus = limiteAjudasTempoBonus;
@@ -111,18 +110,18 @@ public class Jogo {
 		return limiteAjudasRemoverOpcoes;
 	}
 
-	public void setLimiteAjudasRemoverOpcoes(int limiteAjudasRemoverOpcoes) {
+	public void setLimiteAjudasRemoverOpcoes(int limiteAjudasRemoverOpcoes) throws IllegalArgumentException{
 		if (limiteAjudasRemoverOpcoes < 0) {
 			throw new IllegalArgumentException("O limite não pode ser menor que 0.");
 		}
 		this.limiteAjudasRemoverOpcoes = limiteAjudasRemoverOpcoes;
 	}
 
-	public LinkedHashSet<Questao> getQuestoes() {
+	public ArrayList<Questao> getQuestoes() {
 		return questoes;
 	}
 
-	public void setQuestoes(LinkedHashSet<Questao> questoes) {
+	public void setQuestoes(ArrayList<Questao> questoes) {
 		this.questoes = questoes;
 	}
 
