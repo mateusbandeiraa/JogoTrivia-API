@@ -9,17 +9,20 @@ import java.util.Comparator;
  * @author Mateus Bandeira
  */
 public class Participante {
+	private int id;
 	/**
 	 * Titulo que o participante escolhe
 	 */
 	private String nickname;
 	private String chave;
 	/**
-	 * A quantidade de vezes que o participante usou o bonus de Tempo extra para perguntas
+	 * A quantidade de vezes que o participante usou o bonus de Tempo extra para
+	 * perguntas
 	 */
 	private int ajudasTempoBonusUsadas;
 	/**
-	 * A quantidade de vezes que o participante usou o bonus de Remover Opção para a perguntas  
+	 * A quantidade de vezes que o participante usou o bonus de Remover Opção para a
+	 * perguntas
 	 */
 	private int ajudasRemoverOpcoesUsadas;
 	/**
@@ -27,15 +30,16 @@ public class Participante {
 	 */
 	private ArrayList<Interacao> interacoes;
 	private Partida partida;
-	
+
 	/**
-	 * Comparator usado para ordenar uma coleção de Participantes usando como critério a pontuação DECRESCENTE.
+	 * Comparator usado para ordenar uma coleção de Participantes usando como
+	 * critério a pontuação DECRESCENTE.
 	 */
 	public static final Comparator<Participante> COMPARATOR_PONTUACAO = new Comparator<Participante>() {
 		public int compare(Participante o1, Participante o2) {
 			return o2.pontuacaoTotal() - o1.pontuacaoTotal();
 		}
-		
+
 	};
 
 	public void adicionarInteracao(Interacao i) {
@@ -74,6 +78,14 @@ public class Participante {
 
 	public void usarAjudaRemoverOpcoes() {
 		// TODO
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNickname() {
@@ -134,11 +146,9 @@ public class Participante {
 	@Override
 	public String toString() {
 		return "Participante [nickname=" + nickname + ", chave=" + chave + ", ajudasTempoBonusUsadas="
-				+ ajudasTempoBonusUsadas + ", ajudasRemoverOpcoesUsadas=" + ajudasRemoverOpcoesUsadas + ", # interacoes="
-				+ interacoes.size() + ", partida=" + partida.getId() + ", pontuacaoTotal() = " + pontuacaoTotal()+ "]";
+				+ ajudasTempoBonusUsadas + ", ajudasRemoverOpcoesUsadas=" + ajudasRemoverOpcoesUsadas
+				+ ", # interacoes=" + interacoes.size() + ", partida=" + partida.getId() + ", pontuacaoTotal() = "
+				+ pontuacaoTotal() + "]";
 	}
-	
-	
-	
 
 }
