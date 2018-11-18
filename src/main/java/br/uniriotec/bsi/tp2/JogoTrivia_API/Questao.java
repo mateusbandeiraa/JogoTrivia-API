@@ -106,7 +106,7 @@ public class Questao {
 		return qtdCertas / interacoes.size() * 1.0;
 	}
 
-	public ArrayList<Opcao> obterOpcoesIncorretas() {
+	public ArrayList<Opcao> obterOpcoesARemover() {
 		ArrayList<Opcao> opcoesARemover = new ArrayList<Opcao>();
 		for (Opcao op : opcoes) {
 			if (op.ehRemovivel())
