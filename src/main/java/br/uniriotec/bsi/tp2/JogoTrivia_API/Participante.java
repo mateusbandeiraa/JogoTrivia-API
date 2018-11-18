@@ -73,11 +73,15 @@ public class Participante {
 	}
 
 	public void usarAjudaTempoBonus() {
-		// TODO
+		if (!podeUsarAjudaTempoBonus())
+			throw new IllegalStateException("Não pode usar a ajuda.");
+		ajudasTempoBonusUsadas++;
 	}
 
 	public void usarAjudaRemoverOpcoes() {
-		// TODO
+		if (!podeUsarAjudaRemoverOpcoes())
+			throw new IllegalStateException("Não pode usar a ajuda.");
+		ajudasTempoBonusUsadas++;
 	}
 
 	public int getId() {
