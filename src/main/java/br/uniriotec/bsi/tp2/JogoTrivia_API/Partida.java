@@ -69,10 +69,8 @@ public class Partida {
 
 	@Override
 	public String toString() {
-		return "Partida [id=" + id + ", questaoAtual=" + questaoAtual.getId() + ", numeroQuestaoAtual="
-				+ numeroQuestaoAtual + ", dataQuestaoAtual=" + dataQuestaoAtual + ", limiteAjudasRemoverOpcoes="
-				+ limiteAjudasRemoverOpcoes + ", limiteAjudasTempoBonus=" + limiteAjudasTempoBonus + ", estadoAtual="
-				+ estadoAtual + "]";
+		return "Partida [id=" + id + ", limiteAjudasRemoverOpcoes=" + limiteAjudasRemoverOpcoes
+				+ ", limiteAjudasTempoBonus=" + limiteAjudasTempoBonus + ", estadoAtual=" + estadoAtual + "]";
 	}
 
 	/**
@@ -162,22 +160,8 @@ public class Partida {
 	public void encerrarPartida() {
 		if (!estadoAtual.podeEncerrarPartida)
 			throw new IllegalStateException("Estado atual não permite o encerramento da partida.");
-		if (numeroQuestaoAtual != JOGO_MODELO.totalDeQuestoes() && obterDataMaximaParaResposta().before(new Date())) // Checa
-																														// se
-																														// a
-																														// data
-																														// máxima
-																														// para
-																														// a
-																														// resposta
-																														// da
-																														// última
-																														// questão
-																														// aconteceu
-																														// antes
-																														// do
-																														// momento
-																														// atual.
+		// Checa se a data máxima para a resposta da última questão aconteceu antes do momento atual.
+		if (numeroQuestaoAtual != JOGO_MODELO.totalDeQuestoes() && obterDataMaximaParaResposta().before(new Date())) 
 			throw new IllegalStateException("Não é possível encerrar um jogo que não encerrou todas as questões.");
 		this.estadoAtual = EstadoPartida.ENCERRADO;
 	}
@@ -234,6 +218,10 @@ public class Partida {
 
 	public Jogo getJogoModelo() {
 		return JOGO_MODELO;
+	}
+
+	public EstadoPartida getEstadoAtual() {
+		return estadoAtual;
 	}
 
 }
