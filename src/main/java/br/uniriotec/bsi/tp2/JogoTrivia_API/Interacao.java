@@ -2,19 +2,30 @@ package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 /**
  * 
  * @author Rafael Mota
  *
  */
+@Entity
 public class Interacao {
+	@Id
+	@GeneratedValue
+	private int id;
 	/**
 	 * Questão que está sendo exibida no momento atual. Pode ser nula.
 	 */
+	@ManyToOne
 	private Questao questao;
 	/**
 	 * A resposta que o Objeto Participante escolhe
 	 */
+	@ManyToOne
 	private Opcao opcaoSelecionada;
 	/**
 	 * Objeto Date que representa o momento em que a questão foi respondida
@@ -23,7 +34,11 @@ public class Interacao {
 	/**
 	 * O objeto Partida que representa a partida atual
 	 */
+	@ManyToOne
 	private Partida partida;
+
+	@ManyToOne
+	private Participante participante;
 
 	/**
 	 * <pre>
@@ -64,12 +79,28 @@ public class Interacao {
 		return tempoGastoNaInteracao;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Questao getQuestao() {
 		return questao;
 	}
 
 	public void setQuestao(Questao questao) {
 		this.questao = questao;
+	}
+
+	public Participante getParticipante() {
+		return participante;
+	}
+
+	public void setParticipante(Participante participante) {
+		this.participante = participante;
 	}
 
 	public Opcao getOpcaoSelecionada() {
@@ -96,12 +127,17 @@ public class Interacao {
 		this.partida = partida;
 	}
 
-	public Interacao(Questao questao, Opcao opcaoSelecionada, Date dataCriacao, Partida partida)
-			throws TempoEsgotadoException {
+	public Interacao() {
+
+	}
+
+	public Interacao(Questao questao, Participante participante, Opcao opcaoSelecionada, Date dataCriacao,
+			Partida partida) throws TempoEsgotadoException {
 		if (partida.obterDataMaximaParaResposta().before(dataCriacao))
 			throw new TempoEsgotadoException(
 					"Não é possível instanciar a Interação após o término do tempo estipulado na questão.");
 		this.questao = questao;
+		this.participante = participante;
 		this.opcaoSelecionada = opcaoSelecionada;
 		this.dataCriacao = dataCriacao;
 		this.partida = partida;

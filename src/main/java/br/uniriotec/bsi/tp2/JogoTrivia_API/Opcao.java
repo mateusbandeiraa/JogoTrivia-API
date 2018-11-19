@@ -1,10 +1,22 @@
 package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Opcao {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String texto;
-	private final boolean estaCerto;
+	private boolean estaCerto;
 	private boolean ehRemovivel;
+
+	public Opcao() {
+
+	}
 
 	public Opcao(String texto, boolean estaCerto, boolean ehRemovivel) {
 		this.texto = texto;

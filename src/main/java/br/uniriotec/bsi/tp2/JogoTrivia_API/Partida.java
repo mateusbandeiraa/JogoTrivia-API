@@ -4,6 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * Representa uma partida em andamento.
@@ -11,11 +22,15 @@ import java.util.NoSuchElementException;
  * @author Mateus Bandeira
  *
  */
+@Entity
 public class Partida {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	/**
 	 * Questão que está sendo exibida no momento atual. Pode ser nula.
 	 */
+	@OneToOne
 	private Questao questaoAtual;
 	/**
 	 * Número da questão atual. Inicia em 1, logo, é igual ao índice da
@@ -43,16 +58,23 @@ public class Partida {
 	/**
 	 * Modelo de jogo em que a partida será baseada.
 	 */
-	private final Jogo JOGO_MODELO;
+	@ManyToOne
+	private Jogo JOGO_MODELO;
 	/**
 	 * Estado atual da partida. Útil para testar se certas ações são permitidas no
 	 * momento atual.
 	 */
+	@Enumerated(EnumType.STRING)
 	private EstadoPartida estadoAtual;
 	/**
 	 * HashSet de todos os participantes da partida.
 	 */
-	private HashSet<Participante> participantes;
+	@OneToMany
+	private Set<Participante> participantes;
+
+	public Partida() {
+
+	}
 
 	public Partida(int id, Jogo jogoModelo) {
 		this.id = id;
@@ -160,8 +182,9 @@ public class Partida {
 	public void encerrarPartida() {
 		if (!estadoAtual.podeEncerrarPartida)
 			throw new IllegalStateException("Estado atual não permite o encerramento da partida.");
-		// Checa se a data máxima para a resposta da última questão aconteceu antes do momento atual.
-		if (numeroQuestaoAtual != JOGO_MODELO.totalDeQuestoes() && obterDataMaximaParaResposta().before(new Date())) 
+		// Checa se a data máxima para a resposta da última questão aconteceu antes do
+		// momento atual.
+		if (numeroQuestaoAtual != JOGO_MODELO.totalDeQuestoes() && obterDataMaximaParaResposta().before(new Date()))
 			throw new IllegalStateException("Não é possível encerrar um jogo que não encerrou todas as questões.");
 		this.estadoAtual = EstadoPartida.ENCERRADO;
 	}

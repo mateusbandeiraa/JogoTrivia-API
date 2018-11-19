@@ -1,15 +1,32 @@
 package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Questao {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String textoPergunta;
 	private int tempoDisponivel; // em segundos
 	private int tempoBonus; // em segundos
-	private ArrayList<Opcao> opcoes;
+	@OneToMany
+	private List<Opcao> opcoes;
+	@OneToOne
 	private Opcao opcaoCerta;
 	private int quantidadeARemover;
+	
+	public Questao() {
+	
+	}
 
 	public Questao(int id, String textoPergunta, int tempoDisponivel, int tempoBonus) {
 		this(textoPergunta, tempoDisponivel, tempoBonus);
@@ -73,7 +90,7 @@ public class Questao {
 		this.quantidadeARemover = quantidadeARemover;
 	}
 
-	public ArrayList<Opcao> getOpcoes() {
+	public List<Opcao> getOpcoes() {
 		return opcoes;
 	}
 

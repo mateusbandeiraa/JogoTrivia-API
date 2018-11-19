@@ -2,13 +2,24 @@ package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  * 
  * @author Rafael Mota
  * @author Mateus Bandeira
  */
+@Entity
 public class Participante {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	/**
 	 * Titulo que o participante escolhe
@@ -28,7 +39,9 @@ public class Participante {
 	/**
 	 * 
 	 */
-	private ArrayList<Interacao> interacoes;
+	@OneToMany(mappedBy = "participante")
+	private List<Interacao> interacoes;
+	@ManyToOne
 	private Partida partida;
 
 	/**
@@ -127,7 +140,7 @@ public class Participante {
 		this.ajudasRemoverOpcoesUsadas = ajudasRemoverOpcoesUsadas;
 	}
 
-	public ArrayList<Interacao> getInteracoes() {
+	public List<Interacao> getInteracoes() {
 		return interacoes;
 	}
 
@@ -141,6 +154,10 @@ public class Participante {
 
 	public void setPartida(Partida partida) {
 		this.partida = partida;
+	}
+
+	public Participante() {
+
 	}
 
 	public Participante(String nickname, int ajudasTempoBonusUsadas, int ajudasRemoverOpcoesUsadas, Partida partida) {

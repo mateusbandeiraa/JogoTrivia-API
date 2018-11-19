@@ -1,6 +1,13 @@
 package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  * Classe agregadora de questões. Um jogo é um modelo que será base para uma
@@ -9,7 +16,10 @@ import java.util.ArrayList;
  * @author Mateus Bandeira
  *
  */
+@Entity
 public class Jogo {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	/**
 	 * Nome do jogo. Pode ser usado para descrever o tema das perguntas. ex.:
@@ -26,7 +36,12 @@ public class Jogo {
 	/**
 	 * Conjunto de questões que serão apresentadas no jogo.
 	 */
-	private ArrayList<Questao> questoes;
+	@ManyToMany
+	private List<Questao> questoes;
+
+	public Jogo() {
+		
+	}
 
 	public Jogo(String nome, int limiteAjudasTempoBonus, int limiteAjudasRemoverOpcoes) {
 		setNome(nome);
@@ -55,7 +70,7 @@ public class Jogo {
 	public void adicionarQuestao(Questao questao) {
 		if (questoes == null)
 			questoes = new ArrayList<>();
-		if(questoes.contains(questao))
+		if (questoes.contains(questao))
 			throw new IllegalArgumentException("O jogo não pode possuir questões duplicadas.");
 		questoes.add(questao);
 	}
@@ -100,7 +115,7 @@ public class Jogo {
 		return limiteAjudasTempoBonus;
 	}
 
-	public void setLimiteAjudasTempoBonus(int limiteAjudasTempoBonus) throws IllegalArgumentException{
+	public void setLimiteAjudasTempoBonus(int limiteAjudasTempoBonus) throws IllegalArgumentException {
 		if (limiteAjudasTempoBonus < 0)
 			throw new IllegalArgumentException("O limite não pode ser menor que 0.");
 		this.limiteAjudasTempoBonus = limiteAjudasTempoBonus;
@@ -110,14 +125,14 @@ public class Jogo {
 		return limiteAjudasRemoverOpcoes;
 	}
 
-	public void setLimiteAjudasRemoverOpcoes(int limiteAjudasRemoverOpcoes) throws IllegalArgumentException{
+	public void setLimiteAjudasRemoverOpcoes(int limiteAjudasRemoverOpcoes) throws IllegalArgumentException {
 		if (limiteAjudasRemoverOpcoes < 0) {
 			throw new IllegalArgumentException("O limite não pode ser menor que 0.");
 		}
 		this.limiteAjudasRemoverOpcoes = limiteAjudasRemoverOpcoes;
 	}
 
-	public ArrayList<Questao> getQuestoes() {
+	public List<Questao> getQuestoes() {
 		return questoes;
 	}
 
