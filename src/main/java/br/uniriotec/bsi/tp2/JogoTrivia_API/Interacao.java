@@ -97,9 +97,10 @@ public class Interacao {
 	}
 
 	public Interacao(Questao questao, Opcao opcaoSelecionada, Date dataCriacao, Partida partida)
-			throws IllegalStateException {
+			throws TempoEsgotadoException {
 		if (partida.obterDataMaximaParaResposta().before(dataCriacao))
-			throw new IllegalStateException("Não é possível instanciar a Interação após o término do tempo estipulado na questão.");
+			throw new TempoEsgotadoException(
+					"Não é possível instanciar a Interação após o término do tempo estipulado na questão.");
 		this.questao = questao;
 		this.opcaoSelecionada = opcaoSelecionada;
 		this.dataCriacao = dataCriacao;

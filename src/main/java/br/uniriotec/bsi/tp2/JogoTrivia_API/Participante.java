@@ -46,7 +46,7 @@ public class Participante {
 		if (interacoes == null)
 			interacoes = new ArrayList<>();
 		if (this.getPartida().obterDataMaximaParaResposta().before(i.getDataCriacao()))
-			throw new IllegalStateException(
+			throw new TempoEsgotadoException(
 					"Não é possível instanciar a Interação após o término do tempo estipulado na questão.");
 		this.interacoes.add(i);
 	}
