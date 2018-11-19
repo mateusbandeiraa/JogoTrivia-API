@@ -45,6 +45,9 @@ public class Participante {
 	public void adicionarInteracao(Interacao i) {
 		if (interacoes == null)
 			interacoes = new ArrayList<>();
+		if (this.getPartida().obterDataMaximaParaResposta().before(i.getDataCriacao()))
+			throw new IllegalStateException(
+					"Não é possível instanciar a Interação após o término do tempo estipulado na questão.");
 		this.interacoes.add(i);
 	}
 
