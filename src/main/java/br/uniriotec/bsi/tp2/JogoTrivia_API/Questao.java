@@ -3,6 +3,7 @@ package br.uniriotec.bsi.tp2.JogoTrivia_API;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,7 @@ public class Questao {
 	private String textoPergunta;
 	private int tempoDisponivel; // em segundos
 	private int tempoBonus; // em segundos
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Opcao> opcoes;
 	@OneToOne
 	private Opcao opcaoCerta;

@@ -3,6 +3,7 @@ package br.uniriotec.bsi.tp2.JogoTrivia_API;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,7 +37,7 @@ public class Jogo {
 	/**
 	 * Conjunto de questões que serão apresentadas no jogo.
 	 */
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Questao> questoes;
 
 	public Jogo() {
