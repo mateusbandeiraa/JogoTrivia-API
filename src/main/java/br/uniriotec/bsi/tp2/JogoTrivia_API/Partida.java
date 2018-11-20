@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -58,7 +59,7 @@ public class Partida {
 	/**
 	 * Modelo de jogo em que a partida será baseada.
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Jogo JOGO_MODELO;
 	/**
 	 * Estado atual da partida. Útil para testar se certas ações são permitidas no
@@ -69,18 +70,22 @@ public class Partida {
 	/**
 	 * HashSet de todos os participantes da partida.
 	 */
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Participante> participantes;
 
 	public Partida() {
-
+		this.estadoAtual = EstadoPartida.DISPONIVEL;
+		participantes = new HashSet<>();
+	}
+	
+	public Partida(Jogo jogoModelo) {
+		this();
+		this.JOGO_MODELO = jogoModelo;
 	}
 
 	public Partida(int id, Jogo jogoModelo) {
+		this(jogoModelo);
 		this.id = id;
-		this.JOGO_MODELO = jogoModelo;
-		this.estadoAtual = EstadoPartida.DISPONIVEL;
-		participantes = new HashSet<>();
 	}
 
 	public Partida(int id, Jogo jogoModelo, int limiteAjudasRemoverOpcoes, int limiteAjudasTempoBonus) {

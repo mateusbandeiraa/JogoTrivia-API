@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
 
 @Entity
 public class Questao {
@@ -19,14 +21,15 @@ public class Questao {
 	private String textoPergunta;
 	private int tempoDisponivel; // em segundos
 	private int tempoBonus; // em segundos
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OrderColumn()
 	private List<Opcao> opcoes;
 	@OneToOne
 	private Opcao opcaoCerta;
 	private int quantidadeARemover;
-	
+
 	public Questao() {
-	
+
 	}
 
 	public Questao(int id, String textoPergunta, int tempoDisponivel, int tempoBonus) {
@@ -38,7 +41,7 @@ public class Questao {
 		this.textoPergunta = textoPergunta;
 		this.tempoDisponivel = tempoDisponivel;
 		this.tempoBonus = tempoBonus;
-	}	
+	}
 
 	@Override
 	public String toString() {
