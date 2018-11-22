@@ -18,9 +18,9 @@ import java.util.ArrayList;
  * @param <T> é uma lista, set ou Alternativa única, dependendo da resposta 
  */
 public interface ConjuntoDeAlternativas<T> {
-    
+   
     public int getId();
-    public String getTipo();
+    public tipoQuestao getTipo();
     public ArrayList<Alternativa> getAlternativas();
     public T getSolucao();
     public int CalcularPontuacaoResposta (T solucao);

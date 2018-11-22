@@ -15,7 +15,7 @@ import java.util.HashSet;
  */
 public class ConjuntoSolucaoMultipla implements ConjuntoDeAlternativas<HashSet<Alternativa>> {
     private int id;
-    private final String tipo = "Multipla";
+    private final tipoQuestao tipo = tipoQuestao.MULTIPLA;
     private ArrayList<Alternativa> alternativas;
 
     public ConjuntoSolucaoMultipla() {
@@ -47,9 +47,9 @@ public class ConjuntoSolucaoMultipla implements ConjuntoDeAlternativas<HashSet<A
     public void setAlternativas(ArrayList<Alternativa> alternativas) {
         this.alternativas = alternativas;
     }
-    
+
     @Override
-    public String getTipo() {
+    public tipoQuestao getTipo() {
         return tipo;
     }
 

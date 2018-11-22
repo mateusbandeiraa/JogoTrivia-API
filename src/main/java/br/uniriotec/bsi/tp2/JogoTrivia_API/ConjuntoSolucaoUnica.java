@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class ConjuntoSolucaoUnica implements ConjuntoDeAlternativas<Alternativa> {
     private int id;
-    private final String tipo = "Unica";
+    private final tipoQuestao tipo = tipoQuestao.UNICA;
     private ArrayList<Alternativa> alternativas;
 
     public ConjuntoSolucaoUnica() {
@@ -47,7 +47,7 @@ public class ConjuntoSolucaoUnica implements ConjuntoDeAlternativas<Alternativa>
     }
 
     @Override
-    public String getTipo() {
+    public tipoQuestao getTipo() {
         return tipo;
     }
 

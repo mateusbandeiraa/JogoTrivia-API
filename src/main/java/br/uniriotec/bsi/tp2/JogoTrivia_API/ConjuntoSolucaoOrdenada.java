@@ -15,7 +15,7 @@ import java.util.Collections;
 public class ConjuntoSolucaoOrdenada implements ConjuntoDeAlternativas<ArrayList<Alternativa>> {
     
     private int id;
-    private final String tipo = "Ordenada";
+    private final tipoQuestao tipo = tipoQuestao.ORDENADA;
     private ArrayList<Alternativa> alternativas;
 
     public ConjuntoSolucaoOrdenada() {
@@ -47,9 +47,9 @@ public class ConjuntoSolucaoOrdenada implements ConjuntoDeAlternativas<ArrayList
     public void setAlternativas(ArrayList<Alternativa> alternativas) {
         this.alternativas = alternativas;
     }
-    
+
     @Override
-    public String getTipo() {
+    public tipoQuestao getTipo() {
         return tipo;
     }
     

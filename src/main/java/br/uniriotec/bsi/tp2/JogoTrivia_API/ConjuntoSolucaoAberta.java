@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ConjuntoSolucaoAberta implements ConjuntoDeAlternativas<Alternativa> {
     private int id;
-    private final String tipo = "Aberta";
+    private final tipoQuestao tipo = tipoQuestao.ABERTA;
     private Alternativa solucao;
 
     public ConjuntoSolucaoAberta() {
@@ -48,7 +48,7 @@ public class ConjuntoSolucaoAberta implements ConjuntoDeAlternativas<Alternativa
     }
     
     @Override
-    public String getTipo() {
+    public tipoQuestao getTipo() {
         return tipo;
     }
 
