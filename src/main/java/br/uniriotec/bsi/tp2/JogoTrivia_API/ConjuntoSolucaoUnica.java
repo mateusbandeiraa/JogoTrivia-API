@@ -6,30 +6,28 @@
 package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  *
- * @author Beto
+ * @author labccet
  */
-public class ConjuntoSolucaoOrdenada implements ConjuntoDeAlternativas<ArrayList<Alternativa>> {
-    
+public class ConjuntoSolucaoUnica implements ConjuntoDeAlternativas<Alternativa> {
     private int id;
-    private final String tipo = "Ordenada";
+    private final String tipo = "Unica";
     private ArrayList<Alternativa> alternativas;
 
-    public ConjuntoSolucaoOrdenada() {
+    public ConjuntoSolucaoUnica() {
     }
 
-    public ConjuntoSolucaoOrdenada(ArrayList<Alternativa> alternativas) {
+    public ConjuntoSolucaoUnica(ArrayList<Alternativa> alternativas) {
         this.alternativas = alternativas;
     }
 
-    public ConjuntoSolucaoOrdenada(int id, ArrayList<Alternativa> alternativas) {
+    public ConjuntoSolucaoUnica(int id, ArrayList<Alternativa> alternativas) {
         this.id = id;
         this.alternativas = alternativas;
     }
-    
+
     @Override
     public int getId() {
         return id;
@@ -47,30 +45,39 @@ public class ConjuntoSolucaoOrdenada implements ConjuntoDeAlternativas<ArrayList
     public void setAlternativas(ArrayList<Alternativa> alternativas) {
         this.alternativas = alternativas;
     }
-    
+
     @Override
     public String getTipo() {
         return tipo;
     }
-    
+
     @Override
-    public ArrayList<Alternativa> getAlternativasRestantes(int i) {
-        return alternativas;
-    }
-    
-    @Override
-    public ArrayList<Alternativa> getSolucao() {
-        ArrayList<Alternativa> solucao = alternativas;
-        Collections.sort(solucao);
-        return solucao;
+    public Alternativa getSolucao() {
+        for (Alternativa a : alternativas) {
+            if (a.getIndice() == -1)
+                return a;
+        }
+        return null;
     }
 
     @Override
-    public int CalcularPontuacaoResposta(ArrayList<Alternativa> solucao) {
+    public int CalcularPontuacaoResposta(Alternativa solucao) {
         if (!solucao.equals(getSolucao()))
             return 0;
-        else
-            return 100;
+        return 100;
+    }
+
+    @Override
+    public ArrayList<Alternativa> getAlternativasRestantes(int i) {
+        ArrayList<Alternativa> alternativasRestantes = new ArrayList<>();
+        int j = 0;
+        for (Alternativa a : alternativas) {
+            if (a.ehRemovivel() && j < i)
+                j++;
+            else
+                alternativasRestantes.add(a);
+        }
+        return alternativasRestantes;        
     }
     
     

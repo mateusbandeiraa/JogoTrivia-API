@@ -7,24 +7,25 @@ package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 /**
  *
  * @author Juliana
  */
-public class ConjuntoSolucaoBooleana implements ConjuntoDeAlternativas {
+public class ConjuntoSolucaoMultipla implements ConjuntoDeAlternativas<HashSet<Alternativa>> {
     private int id;
-    private final String tipo = "Booleana";
+    private final String tipo = "Multipla";
     private ArrayList<Alternativa> alternativas;
 
-    public ConjuntoSolucaoBooleana() {
+    public ConjuntoSolucaoMultipla() {
     }
 
-    public ConjuntoSolucaoBooleana(ArrayList<Alternativa> alternativas) {
+    public ConjuntoSolucaoMultipla(ArrayList<Alternativa> alternativas) {
         this.alternativas = alternativas;
     }
 
-    public ConjuntoSolucaoBooleana(int id, ArrayList<Alternativa> alternativas) {
+    public ConjuntoSolucaoMultipla(int id, ArrayList<Alternativa> alternativas) {
         this.id = id;
         this.alternativas = alternativas;
     }
@@ -53,13 +54,12 @@ public class ConjuntoSolucaoBooleana implements ConjuntoDeAlternativas {
     }
 
     @Override
-    public ArrayList<Alternativa> getSolucao() {
-        ArrayList<Alternativa> solucao = new ArrayList<>();
+    public HashSet<Alternativa> getSolucao() {
+        HashSet<Alternativa> solucao = new HashSet<>();
         for (Alternativa a : alternativas) {
             if (a.getIndice() == -1)
                 solucao.add(a);
         }
-        Collections.sort(solucao);
         return solucao;
     }
 
@@ -75,6 +75,21 @@ public class ConjuntoSolucaoBooleana implements ConjuntoDeAlternativas {
         }
         return alternativasRestantes;
     }
+
+    /**
+     * para cada elemento da solucao enviada, é necessário comparar com
+     * os elementos da solucao oficial
+     * @param solucao
+     * @return 
+     */
+    @Override
+    public int CalcularPontuacaoResposta(HashSet<Alternativa> solucao) {
+        return 0;
+        //TODO calculo
+            
+    }
+
+
     
     
     

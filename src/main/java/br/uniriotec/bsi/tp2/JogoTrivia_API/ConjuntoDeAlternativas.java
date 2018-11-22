@@ -12,12 +12,18 @@ import java.util.ArrayList;
  * @author Beto
  */
 
-public interface ConjuntoDeAlternativas {
+/**
+ * 
+ * @author labccet
+ * @param <T> é uma lista, set ou Alternativa única, dependendo da resposta 
+ */
+public interface ConjuntoDeAlternativas<T> {
     
     public int getId();
     public String getTipo();
     public ArrayList<Alternativa> getAlternativas();
-    public ArrayList<Alternativa> getSolucao();
+    public T getSolucao();
+    public int CalcularPontuacaoResposta (T solucao);
     public ArrayList<Alternativa> getAlternativasRestantes(int i); //i eh o numero a ser removido;
     
 }

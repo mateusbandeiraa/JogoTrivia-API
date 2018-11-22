@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Beto
  */
 
-public class ConjuntoSolucaoAberta implements ConjuntoDeAlternativas {
+public class ConjuntoSolucaoAberta implements ConjuntoDeAlternativas<Alternativa> {
     private int id;
     private final String tipo = "Aberta";
     private Alternativa solucao;
@@ -39,10 +39,8 @@ public class ConjuntoSolucaoAberta implements ConjuntoDeAlternativas {
     }
     
     @Override
-    public ArrayList<Alternativa> getSolucao() {
-        ArrayList<Alternativa> listaSolucao = new ArrayList<>();
-        listaSolucao.add(this.solucao);
-        return listaSolucao;
+    public Alternativa getSolucao() {
+        return solucao;
     }
 
     public void setSolucao(Alternativa solucao) {
@@ -62,6 +60,14 @@ public class ConjuntoSolucaoAberta implements ConjuntoDeAlternativas {
     @Override
     public ArrayList<Alternativa> getAlternativasRestantes(int i) {
         return null;
+    }
+
+    @Override
+    public int CalcularPontuacaoResposta (Alternativa solucao) {
+        if (!solucao.getTexto().equalsIgnoreCase(this.solucao.getTexto()))
+            return 0;
+        else
+            return 100;
     }
     
     
