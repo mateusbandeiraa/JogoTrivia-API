@@ -1,17 +1,13 @@
 package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderColumn;
 
 @Entity
 public class Questao {
@@ -21,20 +17,30 @@ public class Questao {
 	private String textoPergunta;
 	private int tempoDisponivel; // em segundos
 	private int tempoBonus; // em segundos
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@OrderColumn()
-	private List<Opcao> opcoes;
-	@OneToOne
-	private Opcao opcaoCerta;
+
+	/**
+	 * Um ConjuntoOrdenado é usado pois assim é assegurado que a ordem nas
+	 * quais as Opções são exibidas sempre será a mesma.
+	 */
+	@OneToOne(cascade = CascadeType.ALL)
+	private ConjuntoOrdenado opcoes;
+
+	/**
+	 * Um ConjuntoAlternativas (genérico) é usado pois fica a cargo do autor da
+	 * questão decidir qual é a melhor abordagem:
+	 * <ol><li>Opção única (ConjuntoUnitario);</li><li>Opções múltiplas (ConjuntoMultiplo);</li><li>Opões ordenadas (ConjuntoOrdenado).</li></ol>
+	 */
+	@OneToOne(cascade = CascadeType.ALL)
+	private ConjuntoAlternativas conjuntoSolucao;
+	/**
+	 * Um ConjuntoMultiplo é usado pois não importa a ordem que as opções serão removidas.
+	 */
+	@OneToOne(cascade = CascadeType.ALL)
+	private ConjuntoMultiplo opcoesARemover;
 	private int quantidadeARemover;
 
 	public Questao() {
 
-	}
-
-	public Questao(int id, String textoPergunta, int tempoDisponivel, int tempoBonus) {
-		this(textoPergunta, tempoDisponivel, tempoBonus);
-		this.id = id;
 	}
 
 	public Questao(String textoPergunta, int tempoDisponivel, int tempoBonus) {
@@ -43,11 +49,27 @@ public class Questao {
 		this.tempoBonus = tempoBonus;
 	}
 
-	@Override
-	public String toString() {
-		return "Questao [id=" + id + ", textoPergunta=" + textoPergunta + ", tempoDisponivel=" + tempoDisponivel
-				+ ", tempoBonus=" + tempoBonus + ", opcoes=" + opcoes + ", opcaoCerta=" + opcaoCerta
-				+ ", quantidadeARemover=" + quantidadeARemover + "]";
+	public Questao(String textoPergunta, int tempoDisponivel, int tempoBonus, ConjuntoOrdenado opcoes,
+			ConjuntoAlternativas conjuntoSolucao, ConjuntoMultiplo opcoesARemover) {
+		this(textoPergunta, tempoDisponivel, tempoBonus);
+		this.opcoes = opcoes;
+		this.conjuntoSolucao = conjuntoSolucao;
+		this.opcoesARemover = opcoesARemover;
+		this.quantidadeARemover = opcoesARemover.getOpcoes().size();
+	}
+
+	public Questao(int id, String textoPergunta, int tempoDisponivel, int tempoBonus, ConjuntoOrdenado opcoes,
+			ConjuntoAlternativas conjuntoSolucao, ConjuntoMultiplo opcoesARemover) {
+		this(textoPergunta, tempoDisponivel, tempoBonus, opcoes, conjuntoSolucao, opcoesARemover);
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTextoPergunta() {
@@ -74,16 +96,28 @@ public class Questao {
 		this.tempoBonus = tempoBonus;
 	}
 
-	public int getId() {
-		return id;
+	public ConjuntoOrdenado getOpcoes() {
+		return opcoes;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setOpcoes(ConjuntoOrdenado opcoes) {
+		this.opcoes = opcoes;
 	}
 
-	public Opcao getOpcaoCerta() {
-		return opcaoCerta;
+	public ConjuntoAlternativas getConjuntoSolucao() {
+		return conjuntoSolucao;
+	}
+
+	public void setConjuntoSolucao(ConjuntoAlternativas conjuntoSolucao) {
+		this.conjuntoSolucao = conjuntoSolucao;
+	}
+
+	public ConjuntoMultiplo getOpcoesARemover() {
+		return opcoesARemover;
+	}
+
+	public void setOpcoesARemover(ConjuntoMultiplo opcoesARemover) {
+		this.opcoesARemover = opcoesARemover;
 	}
 
 	public int getQuantidadeARemover() {
@@ -94,30 +128,6 @@ public class Questao {
 		this.quantidadeARemover = quantidadeARemover;
 	}
 
-	public List<Opcao> getOpcoes() {
-		return opcoes;
-	}
-
-	public void setOpcaoCerta(Opcao opcaoCerta) {
-		this.opcaoCerta = opcaoCerta;
-	}
-
-	/**
-	 * Recebe a base de opcoes e armazena
-	 * Salva no atributo respostaCerta a opção correta
-	 * 
-	 * @param opcoes
-	 */
-	public void setOpcoes(ArrayList<Opcao> opcoes) {
-		this.opcoes = opcoes;
-		for (Opcao op : opcoes) {
-			if (op.estaCerto())
-				this.opcaoCerta = op;
-			if (op.ehRemovivel())
-				this.quantidadeARemover++;
-		}
-	}
-
 	public double calcularTaxaDeAcerto(ArrayList<Interacao> interacoes) {
 		int qtdCertas = 0;
 		for (Interacao i : interacoes) {
@@ -125,15 +135,6 @@ public class Questao {
 				qtdCertas++;
 		}
 		return qtdCertas / interacoes.size() * 1.0;
-	}
-
-	public ArrayList<Opcao> obterOpcoesARemover() {
-		ArrayList<Opcao> opcoesARemover = new ArrayList<Opcao>();
-		for (Opcao op : opcoes) {
-			if (op.ehRemovivel())
-				opcoesARemover.add(op);
-		}
-		return opcoesARemover;
 	}
 
 }

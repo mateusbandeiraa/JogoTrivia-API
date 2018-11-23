@@ -26,7 +26,7 @@ public class Interacao {
 	 * A resposta que o Objeto Participante escolhe
 	 */
 	@ManyToOne
-	private Opcao opcaoSelecionada;
+	private ConjuntoAlternativas conjuntoSolucao;
 	/**
 	 * Objeto Date que representa o momento em que a questão foi respondida
 	 */
@@ -48,7 +48,7 @@ public class Interacao {
 	 * @return Se a questao teve exito ou nao
 	 */
 	public boolean solucaoTeveExito() {
-		return (this.opcaoSelecionada.equals(questao.getOpcaoCerta()));
+		return (this.conjuntoSolucao.equals(questao.getConjuntoSolucao()));
 	}
 
 	/**
@@ -103,12 +103,12 @@ public class Interacao {
 		this.participante = participante;
 	}
 
-	public Opcao getOpcaoSelecionada() {
-		return opcaoSelecionada;
+	public ConjuntoAlternativas getConjuntoSolucao() {
+		return conjuntoSolucao;
 	}
 
-	public void setOpcaoSelecionada(Opcao opcaoSelecionada) {
-		this.opcaoSelecionada = opcaoSelecionada;
+	public void setConjuntoSolucao(ConjuntoAlternativas conjuntoSolucao) {
+		this.conjuntoSolucao = conjuntoSolucao;
 	}
 
 	public Date getDataCriacao() {
@@ -131,14 +131,14 @@ public class Interacao {
 
 	}
 
-	public Interacao(Questao questao, Participante participante, Opcao opcaoSelecionada, Date dataCriacao,
+	public Interacao(Questao questao, Participante participante, ConjuntoAlternativas conjuntoSolucao, Date dataCriacao,
 			Partida partida) throws TempoEsgotadoException {
 		if (partida.obterDataMaximaParaResposta().before(dataCriacao))
 			throw new TempoEsgotadoException(
 					"Não é possível instanciar a Interação após o término do tempo estipulado na questão.");
 		this.questao = questao;
 		this.participante = participante;
-		this.opcaoSelecionada = opcaoSelecionada;
+		this.conjuntoSolucao = conjuntoSolucao;
 		this.dataCriacao = dataCriacao;
 		this.partida = partida;
 
@@ -146,7 +146,7 @@ public class Interacao {
 
 	@Override
 	public String toString() {
-		return "Interacao [questao=" + questao.getId() + ", opcaoSelecionada=" + opcaoSelecionada + ", dataCriacao="
+		return "Interacao [questao=" + questao.getId() + ", conjuntoSolucao=" + conjuntoSolucao + ", dataCriacao="
 				+ dataCriacao + ", partida=" + partida.getId() + ", solucaoTeveExito()=" + solucaoTeveExito()
 				+ ", calcularPontuacao()=" + calcularPontuacao() + "]";
 	}

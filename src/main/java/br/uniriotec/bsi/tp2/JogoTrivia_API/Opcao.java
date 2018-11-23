@@ -11,28 +11,23 @@ public class Opcao {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String texto;
-	private boolean estaCerto;
-	private boolean ehRemovivel;
 
 	public Opcao() {
 
 	}
 
-	public Opcao(String texto, boolean estaCerto, boolean ehRemovivel) {
+	public Opcao(String texto) {
 		this.texto = texto;
-		this.estaCerto = estaCerto;
-		this.ehRemovivel = ehRemovivel;
 	}
 
-	public Opcao(int id, String texto, boolean estaCerto, boolean ehRemovivel) {
-		this(texto, estaCerto, ehRemovivel);
+	public Opcao(int id, String texto) {
+		this(texto);
 		this.id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "Opcao [id=" + id + ", texto=" + texto + ", estaCerto=" + estaCerto + ", ehRemovivel=" + ehRemovivel
-				+ "]";
+		return "Opcao [id=" + id + ", texto=" + texto + "]";
 	}
 
 	public int getId() {
@@ -41,18 +36,6 @@ public class Opcao {
 
 	public String getTexto() {
 		return texto;
-	}
-
-	public boolean ehRemovivel() {
-		return ehRemovivel;
-	}
-
-	public void setEhRemovivel(boolean ehRemovivel) {
-		this.ehRemovivel = ehRemovivel;
-	}
-
-	public boolean estaCerto() {
-		return estaCerto;
 	}
 
 	public void setTexto(String texto) {

@@ -8,10 +8,14 @@
 	<persistence-unit name="br.uniriotec.bsi.tp2.JogoTrivia">
 		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.Interacao</class>
 		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.Jogo</class>
-		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.Opcao</class>
 		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.Participante</class>
 		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.Partida</class>
 		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.Questao</class>
+		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.ConjuntoAlternativas</class>
+		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.ConjuntoMultiplo</class>
+		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.ConjuntoOrdenado</class>
+		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.ConjuntoUnitario</class>
+		<class>br.uniriotec.bsi.tp2.JogoTrivia_API.Opcao</class>
 	</persistence-unit>
 
 </persistence>
