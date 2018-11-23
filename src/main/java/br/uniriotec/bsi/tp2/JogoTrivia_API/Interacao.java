@@ -36,119 +36,111 @@ public class Interacao {
 	 */
 	@ManyToOne
 	private Partida partida;
-
+	
 	@ManyToOne
 	private Participante participante;
+    public Interacao() {
+    }
 
-	/**
-	 * <pre>
-	 * Testa a opção escolhida pelo participante e a opção correta
-	 * </pre>
-	 * 
-	 * @return Se a questao teve exito ou nao
-	 */
-	public boolean solucaoTeveExito() {
-		return (this.opcaoSelecionada.equals(questao.getOpcaoCerta()));
-	}
+    public Interacao(Questao questao, ConjuntoDeAlternativas solucao, Date dataCriacao, Partida partida) {
+        this.questao = questao;
+        this.solucao = solucao;
+        this.dataCriacao = dataCriacao;
+        this.partida = partida;
+    }
 
-	/**
-	 * Calcula a formula da pontuação de cada resposta correta
-	 * 
-	 * <pre>
-	 * pontuacao = porcentagem do tempo restante em ralação ao tempo total
-	 * </pre>
-	 * 
-	 * @return A pontuação que o participante ganhou ao responder a questão correta
-	 */
-	public int calcularPontuacao() {
-		if (!solucaoTeveExito())
-			return 0;
-		else {
-			long tempoGasto = tempoGastoNaInteracao();
-			int porcentagemUsada = (int) ((tempoGasto / 1000) * 100) / questao.getTempoDisponivel();// Alterado
-			int pontuacao = 100 - porcentagemUsada;
-			return pontuacao;
-		}
-	}
+    public Interacao(int id, Questao questao, ConjuntoDeAlternativas solucao, Date dataCriacao, Partida partida) {
+        this.id = id;
+        this.questao = questao;
+        this.solucao = solucao;
+        this.dataCriacao = dataCriacao;
+        this.partida = partida;
+    }
 
-	/**
-	 * @return tempo Gasto na interação (em MS)
-	 */
-	public long tempoGastoNaInteracao() {
-		long tempoGastoNaInteracao = (dataCriacao.getTime() - partida.getDataQuestaoAtual().getTime()) / 1000;
-		return tempoGastoNaInteracao;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public Questao getQuestao() {
+        return questao;
+    }
 
-	public Questao getQuestao() {
-		return questao;
-	}
+    public void setQuestao(Questao questao) {
+        this.questao = questao;
+    }
 
-	public void setQuestao(Questao questao) {
-		this.questao = questao;
-	}
+    public ConjuntoDeAlternativas getSolucao() {
+        return solucao;
+    }
 
-	public Participante getParticipante() {
-		return participante;
-	}
+    public void setSolucao(ConjuntoDeAlternativas solucao) {
+        this.solucao = solucao;
+    }
 
-	public void setParticipante(Participante participante) {
-		this.participante = participante;
-	}
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
 
-	public Opcao getOpcaoSelecionada() {
-		return opcaoSelecionada;
-	}
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
 
-	public void setOpcaoSelecionada(Opcao opcaoSelecionada) {
-		this.opcaoSelecionada = opcaoSelecionada;
-	}
+    public Partida getPartida() {
+        return partida;
+    }
 
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
+    public void setPartida(Partida partida) {
+        this.partida = partida;
+    }
+        
+    /**
+     * <pre>
+     * Testa a opção escolhida pelo participante e a opção correta
+     * </pre>
+     * 
+     * @return Se a questao teve exito ou nao
+     */
+    public boolean solucaoTeveExito() {
+        return (calcularPontuacaoResposta() != 0);
+    }
 
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
+    /**
+     * Calcula a formula da pontuação de cada resposta correta
+     * 
+     * <pre>
+     * pontuacaoTempo = porcentagem do tempo restante em ralação ao tempo total
+     * calcularPontuacaoResposta() = pontos recebidos depende da quantidade de acertos da questao
+     * </pre>
+     * 
+     * @return A pontuação que o participante ganhou ao responder a questão correta
+     */
 
-	public Partida getPartida() {
-		return partida;
-	}
+    public int calcularPontuacaoResposta () {
+        return questao.getListaDeAlternativas().CalcularPontuacaoResposta(solucao);
+    }
 
-	public void setPartida(Partida partida) {
-		this.partida = partida;
-	}
 
-	public Interacao() {
+    public int calcularPontuacao() {
+            if (!solucaoTeveExito())
+                    return 0;
+            else {
+                    long tempoGasto = tempoGastoNaInteracao();
+                    int porcentagemUsada = (int) ((tempoGasto / 1000) * 100) / questao.getTempoDisponivel();// Alterado
+                    int pontuacaoTempo = 100 - porcentagemUsada;
+                    return pontuacaoTempo + calcularPontuacaoResposta();
+            }
+    }
 
-	}
-
-	public Interacao(Questao questao, Participante participante, Opcao opcaoSelecionada, Date dataCriacao,
-			Partida partida) throws TempoEsgotadoException {
-		if (partida.obterDataMaximaParaResposta().before(dataCriacao))
-			throw new TempoEsgotadoException(
-					"Não é possível instanciar a Interação após o término do tempo estipulado na questão.");
-		this.questao = questao;
-		this.participante = participante;
-		this.opcaoSelecionada = opcaoSelecionada;
-		this.dataCriacao = dataCriacao;
-		this.partida = partida;
-
-	}
-
-	@Override
-	public String toString() {
-		return "Interacao [questao=" + questao.getId() + ", opcaoSelecionada=" + opcaoSelecionada + ", dataCriacao="
-				+ dataCriacao + ", partida=" + partida.getId() + ", solucaoTeveExito()=" + solucaoTeveExito()
-				+ ", calcularPontuacao()=" + calcularPontuacao() + "]";
-	}
+    /**
+     * @return tempo Gasto na interação (em MS)
+     */
+    public long tempoGastoNaInteracao() {
+            long tempoGastoNaInteracao = (dataCriacao.getTime() - partida.getDataQuestaoAtual().getTime()) / 1000;
+            return tempoGastoNaInteracao;
+    }
 
 }

@@ -15,6 +15,7 @@ import javax.persistence.OrderColumn;
 
 @Entity
 public class Questao {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -23,9 +24,7 @@ public class Questao {
 	private int tempoBonus; // em segundos
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@OrderColumn()
-	private List<Opcao> opcoes;
-	@OneToOne
-	private Opcao opcaoCerta;
+	private ConjuntoDeAlternativas listaDeAlternativas;
 	private int quantidadeARemover;
 
 	public Questao() {
@@ -41,13 +40,6 @@ public class Questao {
 		this.textoPergunta = textoPergunta;
 		this.tempoDisponivel = tempoDisponivel;
 		this.tempoBonus = tempoBonus;
-	}
-
-	@Override
-	public String toString() {
-		return "Questao [id=" + id + ", textoPergunta=" + textoPergunta + ", tempoDisponivel=" + tempoDisponivel
-				+ ", tempoBonus=" + tempoBonus + ", opcoes=" + opcoes + ", opcaoCerta=" + opcaoCerta
-				+ ", quantidadeARemover=" + quantidadeARemover + "]";
 	}
 
 	public String getTextoPergunta() {
@@ -82,40 +74,12 @@ public class Questao {
 		this.id = id;
 	}
 
-	public Opcao getOpcaoCerta() {
-		return opcaoCerta;
-	}
-
 	public int getQuantidadeARemover() {
 		return quantidadeARemover;
 	}
 
 	public void setQuantidadeARemover(int quantidadeARemover) {
 		this.quantidadeARemover = quantidadeARemover;
-	}
-
-	public List<Opcao> getOpcoes() {
-		return opcoes;
-	}
-
-	public void setOpcaoCerta(Opcao opcaoCerta) {
-		this.opcaoCerta = opcaoCerta;
-	}
-
-	/**
-	 * Recebe a base de opcoes e armazena
-	 * Salva no atributo respostaCerta a opção correta
-	 * 
-	 * @param opcoes
-	 */
-	public void setOpcoes(ArrayList<Opcao> opcoes) {
-		this.opcoes = opcoes;
-		for (Opcao op : opcoes) {
-			if (op.estaCerto())
-				this.opcaoCerta = op;
-			if (op.ehRemovivel())
-				this.quantidadeARemover++;
-		}
 	}
 
 	public double calcularTaxaDeAcerto(ArrayList<Interacao> interacoes) {
@@ -134,6 +98,10 @@ public class Questao {
 				opcoesARemover.add(op);
 		}
 		return opcoesARemover;
+	}
+
+	public void setListaDeAlternativas(ConjuntoDeAlternativas listaDeAlternativas) {
+		this.listaDeAlternativas = listaDeAlternativas;
 	}
 
 }
