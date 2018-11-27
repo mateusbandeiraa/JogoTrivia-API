@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -40,9 +42,9 @@ public class Participante {
 	/**
 	 * 
 	 */
-	@OneToMany(mappedBy = "participante", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "participante", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Interacao> interacoes;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER, optional = false)
 	private Partida partida;
 
 	/**
@@ -59,6 +61,8 @@ public class Participante {
 	public void adicionarInteracao(Interacao i) {
 		if (interacoes == null)
 			interacoes = new ArrayList<>();
+		System.out.println(this.getPartida());
+		System.out.println(i.getDataCriacao());
 		if (this.getPartida().obterDataMaximaParaResposta().before(i.getDataCriacao()))
 			throw new TempoEsgotadoException(
 					"Não é possível instanciar a Interação após o término do tempo estipulado na questão.");

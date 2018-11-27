@@ -2,6 +2,7 @@ package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class Interacao {
 	/**
 	 * A resposta que o Objeto Participante escolhe
 	 */
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private ConjuntoAlternativas conjuntoSolucao;
 	/**
 	 * Objeto Date que representa o momento em que a questão foi respondida
