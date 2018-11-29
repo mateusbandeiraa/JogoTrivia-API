@@ -100,7 +100,7 @@ public class Participante {
 	public void usarAjudaRemoverOpcoes() {
 		if (!podeUsarAjudaRemoverOpcoes())
 			throw new IllegalStateException("Não pode usar a ajuda.");
-		ajudasTempoBonusUsadas++;
+		ajudasRemoverOpcoesUsadas++;
 	}
 
 	public int getId() {

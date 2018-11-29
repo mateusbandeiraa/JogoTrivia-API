@@ -54,7 +54,7 @@ public class Questao {
 		this(textoPergunta, tempoDisponivel, tempoBonus);
 		this.opcoes = opcoes;
 		this.conjuntoSolucao = conjuntoSolucao;
-		this.opcoesARemover = opcoesARemover;
+		this.setOpcoesARemover(opcoesARemover);
 		this.quantidadeARemover = opcoesARemover.getOpcoes().size();
 	}
 
@@ -117,6 +117,7 @@ public class Questao {
 	}
 
 	public void setOpcoesARemover(ConjuntoMultiplo opcoesARemover) {
+		this.quantidadeARemover = opcoesARemover.getOpcoes().size();
 		this.opcoesARemover = opcoesARemover;
 	}
 
