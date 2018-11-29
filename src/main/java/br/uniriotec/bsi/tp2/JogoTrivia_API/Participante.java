@@ -61,8 +61,6 @@ public class Participante {
 	public void adicionarInteracao(Interacao i) {
 		if (interacoes == null)
 			interacoes = new ArrayList<>();
-		System.out.println(this.getPartida());
-		System.out.println(i.getDataCriacao());
 		if (this.getPartida().obterDataMaximaParaResposta().before(i.getDataCriacao()))
 			throw new TempoEsgotadoException(
 					"Não é possível instanciar a Interação após o término do tempo estipulado na questão.");

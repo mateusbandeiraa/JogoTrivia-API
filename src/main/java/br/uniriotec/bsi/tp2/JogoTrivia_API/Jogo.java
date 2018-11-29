@@ -1,7 +1,7 @@
 package br.uniriotec.bsi.tp2.JogoTrivia_API;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,7 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 /**
  * Classe agregadora de questões. Um jogo é um modelo que será base para uma
@@ -38,11 +39,12 @@ public class Jogo {
 	/**
 	 * Conjunto de questões que serão apresentadas no jogo.
 	 */
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Questao> questoes;
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@OrderBy("id")
+	private Set<Questao> questoes;
 
 	public Jogo() {
-		
+
 	}
 
 	public Jogo(String nome, int limiteAjudasTempoBonus, int limiteAjudasRemoverOpcoes) {
@@ -71,7 +73,7 @@ public class Jogo {
 	 */
 	public void adicionarQuestao(Questao questao) {
 		if (questoes == null)
-			questoes = new ArrayList<>();
+			questoes = new LinkedHashSet<>();
 		if (questoes.contains(questao))
 			throw new IllegalArgumentException("O jogo não pode possuir questões duplicadas.");
 		questoes.add(questao);
@@ -134,11 +136,11 @@ public class Jogo {
 		this.limiteAjudasRemoverOpcoes = limiteAjudasRemoverOpcoes;
 	}
 
-	public List<Questao> getQuestoes() {
+	public Set<Questao> getQuestoes() {
 		return questoes;
 	}
 
-	public void setQuestoes(ArrayList<Questao> questoes) {
+	public void setQuestoes(LinkedHashSet<Questao> questoes) {
 		this.questoes = questoes;
 	}
 

@@ -70,7 +70,7 @@ public class Partida {
 	/**
 	 * HashSet de todos os participantes da partida.
 	 */
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="partida")
 	private Set<Participante> participantes;
 
 	public Partida() {
