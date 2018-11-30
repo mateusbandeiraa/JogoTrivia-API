@@ -81,6 +81,8 @@ public class Partida {
 	public Partida(Jogo jogoModelo) {
 		this();
 		this.JOGO_MODELO = jogoModelo;
+		this.limiteAjudasRemoverOpcoes = jogoModelo.getLimiteAjudasRemoverOpcoes();
+		this.limiteAjudasTempoBonus = jogoModelo.getLimiteAjudasTempoBonus();
 	}
 
 	public Partida(int id, Jogo jogoModelo) {

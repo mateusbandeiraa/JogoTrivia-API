@@ -42,9 +42,9 @@ public class Participante {
 	/**
 	 * 
 	 */
-	@OneToMany(mappedBy = "participante", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "participante", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Interacao> interacoes;
-	@ManyToOne(fetch=FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	private Partida partida;
 
 	/**
@@ -80,7 +80,7 @@ public class Participante {
 	}
 
 	public boolean podeUsarAjudaTempoBonus() {
-		return (ajudasTempoBonusDisponiveis() < 1);
+		return (ajudasTempoBonusDisponiveis() > 1);
 	}
 
 	public int ajudasRemoverOpcoesDisponiveis() {
@@ -88,16 +88,16 @@ public class Participante {
 	}
 
 	public boolean podeUsarAjudaRemoverOpcoes() {
-		return (ajudasRemoverOpcoesDisponiveis() < 1);
+		return (ajudasRemoverOpcoesDisponiveis() > 0);
 	}
 
-	public void usarAjudaTempoBonus() {
+	public void usarAjudaTempoBonus() throws IllegalStateException {
 		if (!podeUsarAjudaTempoBonus())
 			throw new IllegalStateException("Não pode usar a ajuda.");
 		ajudasTempoBonusUsadas++;
 	}
 
-	public void usarAjudaRemoverOpcoes() {
+	public void usarAjudaRemoverOpcoes() throws IllegalStateException {
 		if (!podeUsarAjudaRemoverOpcoes())
 			throw new IllegalStateException("Não pode usar a ajuda.");
 		ajudasRemoverOpcoesUsadas++;
