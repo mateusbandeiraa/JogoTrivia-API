@@ -31,10 +31,36 @@ public class ConjuntoOrdenado extends ConjuntoAlternativas {
 	}
 
 	@Override
-	public int getPontuacao() {
+	public int getPontuacao(ConjuntoAlternativas s) {
 		// TODO Auto-generated method stub
-		return 0;
+                // o acerto é considerado se errou por diferenca de um 
+                if (this.equals(s))
+                    return 1000;
+                else if (!(s instanceof ConjuntoOrdenado))
+                    return 0;
+                else {
+                    int PONTUACAO_MAXIMA = 750; //pontuacao maxima para quem cometeu um erro
+                    int pontoPorAcerto = PONTUACAO_MAXIMA/opcoes.size();
+                    int pontuacaoAcumulada = 0;
+                    for (int i = 0; i < opcoes.size(); i++) {
+                        for (int j = i-1; j <= i+1; j++) {
+                            if (comparaOpcao ((ConjuntoOrdenado) s, this, i, j))
+                                pontuacaoAcumulada += pontoPorAcerto;
+                        }
+                    }
+                    return pontuacaoAcumulada;
+                }
 	}
+        
+        private static boolean comparaOpcao (ConjuntoOrdenado x, ConjuntoOrdenado y, int i, int j) {
+            // compara opcoes entre dois conjuntos ordenados com indices diferentes
+            try {
+                return x.getOpcoes().get(i).equals(y.getOpcoes().get(j));
+            }
+            catch (ArrayIndexOutOfBoundsException ex) {
+                return false;
+            }
+        }
 	
 	public void adicionarOpcao(Opcao o) {
 		if(this.opcoes == null)

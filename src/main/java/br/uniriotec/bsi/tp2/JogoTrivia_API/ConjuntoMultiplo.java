@@ -29,10 +29,31 @@ public class ConjuntoMultiplo extends ConjuntoAlternativas {
 	}
 
 	@Override
-	public int getPontuacao() {
+	public int getPontuacao(ConjuntoAlternativas s) {
 		// TODO Auto-generated method stub
-		return 0;
+                if (!(s instanceof ConjuntoMultiplo))
+                    return 0;
+                else if (s.equals(this))
+                    return 1000;
+                else {
+                    int PONTUACAO_MAXIMA = 750; //pontuacao maxima possivel para quem cometeu um erro
+                    int pontoPorAcerto = PONTUACAO_MAXIMA/this.getOpcoes().size();
+                    int qtdAcertos =  contaAcertos (this, (ConjuntoMultiplo) s);
+                    int qtdErros = Math.abs(qtdAcertos - this.getOpcoes().size());
+                    return Math.max(qtdAcertos - qtdErros, 0)*pontoPorAcerto;    
+                }
 	}
+        
+        private static int contaAcertos (ConjuntoMultiplo x, ConjuntoMultiplo y) {
+            int totalAcertos = 0;
+            for ( Opcao opX :x.getOpcoes() ) {
+                for (Opcao opY : y.getOpcoes()) {
+                    if (opX.equals(opY))
+                        totalAcertos ++;
+                }
+            }
+            return totalAcertos;
+        }
 	
 	public void adicionarOpcao(Opcao o) {
 		if(this.opcoes == null)

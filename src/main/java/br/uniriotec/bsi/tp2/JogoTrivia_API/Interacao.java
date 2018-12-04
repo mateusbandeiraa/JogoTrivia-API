@@ -60,6 +60,7 @@ public class Interacao {
 	 * </pre>
 	 * 
 	 * @return A pontuação que o participante ganhou ao responder a questão correta
+         * Calculada somando a pontuacao por tempo mais a pontuação do acerto
 	 */
 	public int calcularPontuacao() {
 		if (!solucaoTeveExito())
@@ -67,8 +68,8 @@ public class Interacao {
 		else {
 			long tempoGasto = tempoGastoNaInteracao();
 			int porcentagemUsada = (int) ((tempoGasto / 1000) * 100) / questao.getTempoDisponivel();// Alterado
-			int pontuacao = 100 - porcentagemUsada;
-			return pontuacao;
+			int pontuacaoTempo = 100 - porcentagemUsada;
+			return pontuacaoTempo + this.conjuntoSolucao.getPontuacao();
 		}
 	}
 

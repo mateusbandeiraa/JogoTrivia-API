@@ -24,9 +24,11 @@ public class ConjuntoUnitario extends ConjuntoAlternativas {
 	}
 
 	@Override
-	public int getPontuacao() {
+	public int getPontuacao(ConjuntoAlternativas s) {
 		// TODO Auto-generated method stub
-		return 0;
+		if (this.equals(s))
+                    return 1000;
+                return 0;
 	}
 
 	public ConjuntoUnitario() {

@@ -30,7 +30,7 @@ public abstract class ConjuntoAlternativas {
 
 	public abstract boolean equals(ConjuntoAlternativas s);
 
-	public abstract int getPontuacao();
+	public abstract int getPontuacao(ConjuntoAlternativas s);
 
 	public int getId() {
 		return id;
