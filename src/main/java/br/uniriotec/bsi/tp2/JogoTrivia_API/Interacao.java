@@ -42,6 +42,11 @@ public class Interacao {
 	private Participante participante;
 
 	/**
+	 * Tempo gasto em MS
+	 */
+	private long tempoGasto;
+
+	/**
 	 * <pre>
 	 * Testa a opção escolhida pelo participante e a opção correta
 	 * </pre>
@@ -60,27 +65,21 @@ public class Interacao {
 	 * </pre>
 	 * 
 	 * @return A pontuação que o participante ganhou ao responder a questão correta
-         * Calculada somando a pontuacao por tempo mais a pontuação do acerto
+	 *         Calculada somando a pontuacao por tempo mais a pontuação do acerto
 	 */
 	public int calcularPontuacao() {
 		if (!solucaoTeveExito())
 			return 0;
 		else {
-			long tempoGasto = tempoGastoNaInteracao();
-			int porcentagemUsada = (int) ((tempoGasto / 1000) * 100) / questao.getTempoDisponivel();// Alterado
-			int pontuacaoTempo = 100 - porcentagemUsada;
-			return pontuacaoTempo + questao.getConjuntoSolucao().getPontuacao(conjuntoSolucao);
+			int tempoTotal = questao.getTempoDisponivel();
+
+			double porcentagemUsada = (tempoGasto / 1000.) / tempoTotal;// Alterado
+			double porcentagemBonus = 1 - porcentagemUsada;
+
+			int pontuacaoTotal = (int) (questao.getConjuntoSolucao().getPontuacao(conjuntoSolucao) * porcentagemBonus);
+			return pontuacaoTotal;
 		}
 	}
-
-	/**
-	 * @return tempo Gasto na interação (em MS)
-	 */
-	public long tempoGastoNaInteracao() {
-		long tempoGastoNaInteracao = (dataCriacao.getTime() - partida.getDataQuestaoAtual().getTime()) / 1000;
-		return tempoGastoNaInteracao;
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -129,6 +128,14 @@ public class Interacao {
 		this.partida = partida;
 	}
 
+	public long getTempoGasto() {
+		return tempoGasto;
+	}
+
+	public void setTempoGasto(long tempoGasto) {
+		this.tempoGasto = tempoGasto;
+	}
+
 	public Interacao() {
 
 	}
@@ -143,6 +150,7 @@ public class Interacao {
 		this.conjuntoSolucao = conjuntoSolucao;
 		this.dataCriacao = dataCriacao;
 		this.partida = partida;
+		this.tempoGasto = dataCriacao.getTime() - partida.getDataQuestaoAtual().getTime();
 
 	}
 
