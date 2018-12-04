@@ -69,7 +69,7 @@ public class Interacao {
 			long tempoGasto = tempoGastoNaInteracao();
 			int porcentagemUsada = (int) ((tempoGasto / 1000) * 100) / questao.getTempoDisponivel();// Alterado
 			int pontuacaoTempo = 100 - porcentagemUsada;
-			return pontuacaoTempo + this.conjuntoSolucao.getPontuacao();
+			return pontuacaoTempo + questao.getConjuntoSolucao().getPontuacao(conjuntoSolucao);
 		}
 	}
 
